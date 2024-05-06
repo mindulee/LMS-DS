@@ -22,5 +22,5 @@ app.listen(PORT , () => {
 })
 
 app.use('/' ,(req,res)=>{
-    res.json('Admin Service')
+    res.send('Hello from Admin Service')
 })

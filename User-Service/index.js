@@ -22,5 +22,5 @@ app.listen(PORT , () => {
 })
 
 app.use((req,res)=>{
-    res.json('User-service')
+    res.send('Hello from User-service')
 })
