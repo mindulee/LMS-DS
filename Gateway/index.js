@@ -37,5 +37,5 @@ app.use('/User' , createProxyMiddleware({
 
 
 app.listen(PORT , () => {
-    console.log(`Chat service running on ${PORT}`)
+    console.log(` service running on ${PORT}`)
 })

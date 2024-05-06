@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const {getAllCourses , createNewCourse , updateCourse , deleteCourse} = require('../controllers/courseController')
+
+const {getCourseById , getAllCourses, createNewCourse, updateCourse, deleteCourse} = require('../controllers/courseController')
 
 
 router.get('/', getAllCourses);
+
+// Get a single course by ID
+router.get('/:id', getCourseById);
 
 // Create a new course  ,
 router.post('/add', createNewCourse );
@@ -20,4 +24,3 @@ router.delete('/delete/:id',  deleteCourse);
 module.exports = router;
 
 
-module.exports = router;

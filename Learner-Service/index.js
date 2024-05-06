@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const learnerRoutes = require('./routes/learnerRoutes')
 require('dotenv').config();
 const cors = require('cors')
 
@@ -21,6 +22,7 @@ app.listen(PORT , () => {
     console.log(`Server running on port ${PORT}`)
 })
 
-app.use('/' ,(req,res)=>{
-    res.send('Hello from Learner-service')
-})
+
+
+//routes
+app.use('/', learnerRoutes);

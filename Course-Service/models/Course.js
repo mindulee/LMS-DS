@@ -22,7 +22,9 @@ const courseSchema = new mongoose.Schema({
     price: {
         type: Number,
         default: 0 // Default price is 0
-    }
+    },
+    enrolledUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    
 });
 
 module.exports = mongoose.model('Course', courseSchema);
