@@ -1,22 +1,27 @@
 const express = require('express');
 const router = express.Router();
+const upload = require("../middleware/multer.middleware");
 
-const {getCourseById , getAllCourses, createNewCourse, updateCourse, deleteCourse} = require('../controllers/courseController')
+
+const {create_New_Course , deleteCourseLecture  , getAllCourses, removeCourse , addLectureToCourseById , getLecturesByCourseId} = require('../controllers/courseController')
 
 
 router.get('/', getAllCourses);
 
-// Get a single course by ID
-router.get('/:id', getCourseById);
+router.get('/lectures/:id',getLecturesByCourseId)
+router.delete('/lecture/delete/courses', deleteCourseLecture);
+
+
 
 // Create a new course  ,
-router.post('/add', createNewCourse );
+router.post('/add', upload.single("thumbnail") , create_New_Course );
 
-// Update a course  isAdmin ,
-router.put('/update/:id',  updateCourse);
 
 // Delete a course   isAdmin ,
-router.delete('/delete/:id',  deleteCourse);
+router.delete('/delete/:id',  removeCourse);
+
+
+router.post('/lecture/:id' , upload.single("lecture"), addLectureToCourseById)
 
 
 

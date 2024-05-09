@@ -1,30 +1,59 @@
-const mongoose = require('mongoose');
+ const { model, Schema } =  require('mongoose');
 
-const courseSchema = new mongoose.Schema({
+const courseSchema = new Schema({
     title: {
         type: String,
-        required: true
+        unique: true,
+        required: [true, 'Title is required'],
+        minLength: [8, 'Title must be at least 8 character'],
+        maxLength: [59, 'Title should be less than 60 character'],
+        trim: true
     },
-    instructor: {
+    description: {
         type: String,
-        required: true
+        required: true,
+        minLength: [8, 'Description must be at least 8 character'],
+        maxLength: [500, 'Description should be less than 500 character'],
     },
     category: {
         type: String,
-        required: true
+        required: [true, 'Category is required'],
     },
-    description: String,
-    lectures: [{
-        title: String,
-        duration: Number, // Duration of the lecture in minutes
-        videoUrl: String
-    }],
-    price: {
+    thumbnail: {
+        public_id: {
+            type: String
+        },
+        secure_url: {
+            type: String
+        }
+    },
+    lectures: [
+        {
+            title: String,
+            description: String,
+            lecture: {
+                public_id: {
+                    type: String 
+                },
+                secure_url: {
+                    type: String
+                }
+            }
+        }
+    ],
+    numberOfLectures: {
         type: Number,
-        default: 0 // Default price is 0
+        default: 0
     },
-    enrolledUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
-    
-});
+    createdBy: {
+        type: String,
+        required: true,
+    }
+},
+    {
+        timestamps: true
+    })
 
-module.exports = mongoose.model('Course', courseSchema);
+const Course = model("Course", courseSchema);
+
+module.exports =Course

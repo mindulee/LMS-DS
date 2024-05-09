@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors')
 const bodyParser = require('body-parser');
+const cookieParser = require ('cookie-parser');
+const morgan = require('morgan');
+
+
 
 const courseRoutes =require('./routes/courseRoutes')
 
@@ -12,7 +16,12 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 //middleware
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 app.use(cors())
+app.use(cookieParser());
+
+
+
 
 
 app.use(express.json())  
