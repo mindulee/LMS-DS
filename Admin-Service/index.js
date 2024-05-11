@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors')
+const adminRoutes = require('./routes/adminRoutes')
 
 const app = express();
 const PORT = process.env.PORT ;
@@ -21,6 +22,5 @@ app.listen(PORT , () => {
     console.log(`Server running on port ${PORT}`)
 })
 
-app.use('/' ,(req,res)=>{
-    res.send('Hello from Admin Service')
-})
+//routes
+app.use('/', adminRoutes);

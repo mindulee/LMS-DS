@@ -26,6 +26,7 @@ import DisplayLecture from "./Pages/Dashboard/DisplayLecture";
 import AddLecture from "./Pages/Dashboard/AddLecture";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
 import TeacherDashboard from "./Pages/Dashboard/TeacherDashboard";
+import DisplayRequests from "./Pages/Dashboard/DisplayRequests";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -60,6 +61,7 @@ function App() {
           <Route path="/course/addlecture" element={<AddLecture />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+          <Route path="/admin/requests" element={<DisplayRequests />} />
          
         
 

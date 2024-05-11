@@ -12,14 +12,14 @@ export default function DisplayLecture() {
   const [currentVideo, setCurrentVideo] = useState(0);
 
   async function getLectures(courseId) {
-    const loadingId = toast.loading("Fetching Lectures...");
+    
   try {
     const res = await axios.get(`http://localhost:3000/Course/lectures/${courseId}`);
     console.log("Fetched Lectures:", res.data); // Log the fetched data
-    toast.success("Lectures Fetched Successfully", { id: loadingId });
+    toast.success("Lectures Fetched Successfully");
     setLectures(res?.data.course?.lectures || []);
   } catch (error) {
-    toast.error(error?.response?.data?.message, { id: loadingId });
+    toast.error(error?.response?.data?.message);
   }
   }
 

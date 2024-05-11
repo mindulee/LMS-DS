@@ -3,6 +3,60 @@ const  cloudinary  = require('../utills/cloudinary');
 const fs = require('fs')
 
 
+async function create_New_Course(req, res) {
+    try {
+        const { title, description, category, createdBy } = req.body;
+
+        if (!title || !description || !category || !createdBy) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        console.log("Request body:", req.body);
+
+        const course = await Course.create({
+            title,
+            description,
+            category,
+            createdBy,
+            status: 'pending'
+        });
+        console.log("Created course:", course);
+
+        if (!course) {
+           console.log('Course could not be created, please try again');
+        }
+
+        course.thumbnail = {};
+
+        // file upload
+        if (req.file) {
+            const result = await cloudinary.v2.uploader.upload(req.file.path, {
+                folder: 'Learning-Management-System'
+            });
+            console.log("Cloudinary result:", result);
+
+            if (result) {
+                course.thumbnail.public_id = result.public_id;
+                course.thumbnail.secure_url = result.secure_url;
+            }
+
+            fs.rmSync(`uploads/${req.file.filename}`);
+        }
+
+        await course.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Course successfully created',
+            course
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'An error occurred while creating the course' });
+    }
+}
+
 async function getLecturesByCourseId(req,res,next){
     try {
         const { id } = req.params;
@@ -76,58 +130,7 @@ async function addLectureToCourseById(req,res) {
         return res.status(400).json({ message: 'error ' });
     }
 }
-async function create_New_Course(req, res) {
-    try {
-        const { title, description, category, createdBy } = req.body;
 
-        if (!title || !description || !category || !createdBy) {
-            return res.status(400).json({ message: 'All fields are required' });
-        }
-
-        console.log("Request body:", req.body);
-
-        const course = await Course.create({
-            title,
-            description,
-            category,
-            createdBy
-        });
-        console.log("Created course:", course);
-
-        if (!course) {
-           console.log('Course could not be created, please try again');
-        }
-
-        course.thumbnail = {};
-
-        // file upload
-        if (req.file) {
-            const result = await cloudinary.v2.uploader.upload(req.file.path, {
-                folder: 'Learning-Management-System'
-            });
-            console.log("Cloudinary result:", result);
-
-            if (result) {
-                course.thumbnail.public_id = result.public_id;
-                course.thumbnail.secure_url = result.secure_url;
-            }
-
-            fs.rmSync(`uploads/${req.file.filename}`);
-        }
-
-        await course.save();
-
-        res.status(200).json({
-            success: true,
-            message: 'Course successfully created',
-            course
-        });
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'An error occurred while creating the course' });
-    }
-}
 
 
 const getAllCourses = async (req, res, next) => {
@@ -198,5 +201,41 @@ const removeCourse = async (req, res, next) => {
     }
 }
 
-module.exports = { deleteCourseLecture , getAllCourses, removeCourse , create_New_Course , addLectureToCourseById ,getLecturesByCourseId };
+async function acceptCourse(req, res) {
+    const { courseId } = req.body;
+
+    try {
+        const course = await Course.findByIdAndUpdate(courseId, { status: 'accepted' }, { new: true });
+
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        return res.status(200).json({ message: 'Course accepted successfully', course });
+    } catch (error) {
+        console.error('Error accepting course:', error);
+        return res.status(500).json({ message: 'An error occurred while accepting course' });
+    }
+}
+
+async function denyCourse(req, res) {
+    const { courseId } = req.body;
+
+    try {
+        const course = await Course.findByIdAndUpdate(courseId, { status: 'declined' }, { new: true });
+
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        return res.status(200).json({ message: 'Course denied successfully', course });
+    } catch (error) {
+        console.error('Error denying course:', error);
+        return res.status(500).json({ message: 'An error occurred while denying course' });
+    }
+}
+
+
+
+module.exports = { deleteCourseLecture , getAllCourses, removeCourse , create_New_Course , addLectureToCourseById ,getLecturesByCourseId , acceptCourse, denyCourse };
 

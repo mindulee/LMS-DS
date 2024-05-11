@@ -5,15 +5,15 @@ const courseSchema = new Schema({
         type: String,
         unique: true,
         required: [true, 'Title is required'],
-        minLength: [8, 'Title must be at least 8 character'],
+        
         maxLength: [59, 'Title should be less than 60 character'],
         trim: true
     },
     description: {
         type: String,
         required: true,
-        minLength: [8, 'Description must be at least 8 character'],
-        maxLength: [500, 'Description should be less than 500 character'],
+        
+        maxLength: [1000, 'Description should be less than 500 character'],
     },
     category: {
         type: String,
@@ -48,7 +48,8 @@ const courseSchema = new Schema({
     createdBy: {
         type: String,
         required: true,
-    }
+    },
+    status: { type: String, enum: ['pending', 'accepted', 'declined'], default: 'pending' }
 },
     {
         timestamps: true

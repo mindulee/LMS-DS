@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  ArcElement,
-  BarElement,
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LinearScale,
-  Title,
-  Tooltip,
-} from "chart.js";
-import { Bar, Pie } from "react-chartjs-2";
+// Chart.js imports
+// import {
+//   ArcElement,
+//   BarElement,
+//   CategoryScale,
+//   Chart as ChartJS,
+//   Legend,
+//   LinearScale,
+//   Title,
+//   Tooltip,
+// } from "chart.js";
+// import { Bar, Pie } from "react-chartjs-2";
+// End of Chart.js imports
 import { BsCollectionPlayFill, BsTrash } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { FcSalesPerformance } from "react-icons/fc";
@@ -18,15 +20,16 @@ import { useNavigate } from "react-router-dom";
 
 import Layout from "../../Layout/Layout";
 
-ChartJS.register(
-  ArcElement,
-  BarElement,
-  CategoryScale,
-  Legend,
-  LinearScale,
-  Title,
-  Tooltip
-);
+// Chart.js registration
+// ChartJS.register(
+//   ArcElement,
+//   BarElement,
+//   CategoryScale,
+//   Legend,
+//   LinearScale,
+//   Title,
+//   Tooltip
+// );
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -95,24 +98,26 @@ export default function AdminDashboard() {
 
   const onDeleteCourse = async (courseId) => {
     try {
-        const response = await fetch(`http://localhost:3000/Course/delete/${courseId}`, {
-            method: 'DELETE',
-        });
-        if (!response.ok) {
-            throw new Error('Failed to delete course');
-        }
-        // Remove the deleted course from the state
-        setMyCourses(myCourses.filter(course => course._id !== courseId));
+      const response = await fetch(`http://localhost:3000/Course/delete/${courseId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete course');
+      }
+      // Remove the deleted course from the state
+      setMyCourses(myCourses.filter(course => course._id !== courseId));
     } catch (error) {
-        console.error('Error deleting course:', error);
+      console.error('Error deleting course:', error);
     }
-}
-
-  
+  }
 
   useEffect(() => {
     fetchCourses();
   }, []);
+
+  const handleRequestButtonClick = () => {
+    navigate("/admin/requests");
+  };
 
   return (
     <Layout hideFooter={true}>
@@ -125,8 +130,7 @@ export default function AdminDashboard() {
           {/* creating the records card and chart for sales and user details */}
           <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-7 m-auto lg:mx-10 mx-2">
             {/* displaying the users chart and data */}
-            <div className="flex flex-col items-center  gap-5  lg:px-6 px-4 lg:py-8 py-7 shadow-custom  dark:bg-base-100 rounded-md">
-              {/* for displaying the pie chart */}
+            {/* <div className="flex flex-col items-center  gap-5  lg:px-6 px-4 lg:py-8 py-7 shadow-custom  dark:bg-base-100 rounded-md">
               <div className="w-full h-60">
                 <Pie
                   className="pb-3 px-2.5"
@@ -137,10 +141,7 @@ export default function AdminDashboard() {
                   }}
                 />
               </div>
-
-              {/* card for user data */}
               <div className="grid grid-cols-2 gap-5 w-full">
-                {/* Registered user */}
                 <div className="flex  items-center relative h-32 justify-between p-5 gap-5 rounded-md shadow-md">
                   <div className="flex flex-col items-center mt-3 justify-center">
                     <p className="font-semibold text-gray-700 dark:text-white md:static absolute top-3 left-3">
@@ -152,8 +153,6 @@ export default function AdminDashboard() {
                   </div>
                   <FaUsers className="text-yellow-500 text-5xl" />
                 </div>
-
-                {/* subscribedCount */}
                 <div className="flex  items-center relative h-32 justify-between p-5 gap-5 rounded-md shadow-md">
                   <div className="flex flex-col items-center mt-3 justify-center">
                     <p className="font-semibold text-gray-700 dark:text-white md:static absolute top-3 left-3">
@@ -166,11 +165,9 @@ export default function AdminDashboard() {
                   <FaUsers className="text-green-500 text-5xl" />
                 </div>
               </div>
-            </div>
-
+            </div> */}
             {/* displaying the sales chart and data */}
-            <div className="flex flex-col items-center gap-5 dark:bg-base-100 lg:px-6 px-4 lg:py-8 py-7 shadow-custom rounded-md">
-              {/* for displaying the bar chart */}
+            {/* <div className="flex flex-col items-center gap-5 dark:bg-base-100 lg:px-6 px-4 lg:py-8 py-7 shadow-custom rounded-md">
               <div className="h-60 relative w-full">
                 <Bar
                   data={salesData}
@@ -180,10 +177,7 @@ export default function AdminDashboard() {
                   }}
                 />
               </div>
-
-              {/* card for user data */}
               <div className="grid grid-cols-2 gap-5 w-full">
-                {/* Subscription count */}
                 <div className="flex  items-center relative h-32 justify-between p-5 gap-5 rounded-md shadow-md">
                   <div className="flex flex-col items-center mt-3 justify-center">
                     <p className="font-semibold text-gray-700 dark:text-white md:static absolute top-3 left-3">
@@ -195,8 +189,6 @@ export default function AdminDashboard() {
                   </div>
                   <FcSalesPerformance className="text-yellow-500 text-5xl" />
                 </div>
-
-                {/* total revenue */}
                 <div className="flex  items-center relative h-32 justify-center p-5 gap-5 rounded-md shadow-md">
                   <div className="flex flex-col items-center mt-3 justify-center">
                     <p className="font-semibold text-gray-700 dark:text-white md:static absolute top-3 left-3">
@@ -209,25 +201,30 @@ export default function AdminDashboard() {
                   <GiMoneyStack className="text-green-500 text-5xl" />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
-
           <div className=" w-[100%] self-center flex flex-col   justify-center gap-10 mb-10">
             <div className="flex w-full items-center justify-between md:px-[40px] px-3">
               <h1 className="text-center font-inter md:text-3xl text-xl text-gray-600 dark:text-slate-50 font-semibold">
                 Courses overview
               </h1>
-
-              <button
-                onClick={() => {
-                  navigate("/course/create");
-                }}
-                className="w-fit bg-yellow-500  transition-all ease-in-out duration-300 rounded py-2 px-4 font-[600] font-inter text-lg text-white cursor-pointer"
-              >
-                Create new course
-              </button>
+              <div>
+                <button
+                  onClick={() => {
+                    navigate("/course/create");
+                  }}
+                  className="bg-yellow-500  transition-all ease-in-out duration-300 rounded py-2 px-4 font-[600] font-inter text-lg text-white cursor-pointer mr-4"
+                >
+                  Create new course
+                </button>
+                <button
+                  onClick={handleRequestButtonClick}
+                  className="bg-blue-500  transition-all ease-in-out duration-300 rounded py-2 px-4 font-[600] font-inter text-lg text-white cursor-pointer"
+                >
+                  Request
+                </button>
+              </div>
             </div>
-
             <div className="w-full overflow-x-scroll">
               {loadingCourses ? (
                 <div>Loading...</div>
