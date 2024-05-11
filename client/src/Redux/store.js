@@ -1,7 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { combineReducers, applyMiddleware } from 'redux';
-//import { composeWithDevTools } from '@redux-devtools/extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import AuthSliceReducer from "./Slices/AuthSlice";
 import RazorpaySliceReducer from "./Slices/RazorpaySlice";
 import StatSliceReducer from "./Slices/StatSlice";
@@ -47,7 +46,6 @@ const rootReducer = combineReducers({
 
 // Initial state combining both initial states
 const initialState = {
-    auth: {}, // Add initial state for AuthSlice if needed
     signIn: {
         userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
     },
@@ -60,11 +58,10 @@ const initialState = {
 const middleware = [thunk];
 
 // Create the store
-const store = configureStore({
-    reducer: rootReducer,
-    preloadedState: initialState,
-    middleware,
-    devTools: true
-});
+const store = createStore(
+    rootReducer,
+    initialState,
+    composeWithDevTools(applyMiddleware(...middleware))
+);
 
 export default store;

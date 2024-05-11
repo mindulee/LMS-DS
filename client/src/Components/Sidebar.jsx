@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../Redux/Slices/AuthSlice";
+import { userLogoutAction } from "../Redux/actions/userAction";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
@@ -14,13 +14,14 @@ import {
 } from "react-icons/fa";
 
 export default function Sidebar({ hideBar = false }) {
+  const {userInfo} = useSelector((state) => state.signIn) 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { isLoggedIn, role, data } = useSelector((state) => state.auth);
 
   const onLogout = async function () {
-    await dispatch(logout());
+    await dispatch(userLogoutAction());
     navigate("/");
   };
 
@@ -128,7 +129,7 @@ export default function Sidebar({ hideBar = false }) {
               </Link>
             </li>
 
-            {isLoggedIn ? (
+            {userInfo ? (
               <li className="absolute bottom-4 w-[90%]">
                 <div className="w-full flex md:flex-row flex-col gap-2 items-center justify-center">
                   <button className="btn-primary px-3.5 py-2.5 font-semibold rounded-md w-full">

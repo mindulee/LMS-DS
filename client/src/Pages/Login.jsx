@@ -1,99 +1,114 @@
-import { useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import Layout from "../Layout/Layout";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import InputBox from "../Components/InputBox/InputBox";
-import { useSelector } from "react-redux";
-import { userSignInAction } from "../Redux/actions/userAction";
+import { Avatar, Box, Typography, Container, CssBaseline } from '@mui/material';
+import LockClockOutlinedIcon from '@mui/icons-material/LockClockOutlined';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSignInAction } from '../Redux/actions/userAction';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 const validationSchema = yup.object({
-  email: yup.string().email().required("Email is required"),
-  password: yup.string().min(8).required("Password is required"),
+  email: yup.string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup.string('Enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
 });
 
-export default function Login() {
+const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, userInfo } = useSelector((state) => state.signIn);
-  
+  const { isAuthenticated, userInfo } = useSelector(state => state.signIn);
+
+  // Redirect to appropriate dashboard if user is already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      if (userInfo.role === 1) {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/");
-      }
+      userInfo.role === 1 ? navigate('/admin/dashboard') : navigate('/user/dashboard');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, userInfo, navigate]);
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
       dispatch(userSignInAction(values));
       actions.resetForm();
-    },
+    }
   });
 
   return (
-    <Layout>
-      <section className="flex flex-col gap-6 items-center py-8 px-3 min-h-[100vh]">
-        <form
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <LockClockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Log In
+        </Typography>
+        <Box
+          component="form"
           onSubmit={formik.handleSubmit}
-          autoComplete="off"
           noValidate
-          className="flex flex-col dark:bg-base-100 gap-4 rounded-lg md:py-5 py-7 md:px-7 px-3 md:w-[500px] w-full shadow-custom dark:shadow-xl"
+          sx={{ mt: 3 }}
         >
-          <h1 className="text-center dark:text-purple-500 text-4xl font-bold font-inter">
-            Login Page
-          </h1>
-          {/* email */}
-          <InputBox
-            label={"Email"}
-            name={"email"}
-            type={"email"}
-            placeholder={"Enter your email..."}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
             value={formik.values.email}
-            error={formik.touched.email && formik.errors.email}
-          />
-          {/* password */}
-          <InputBox
-            label={"Password"}
-            name={"password"}
-            type={"password"}
-            placeholder={"Enter your password..."}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.password}
-            error={formik.touched.password && formik.errors.password}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
-
-          {/* submit btn */}
-          <button
+          
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+          />
+          <Button
             type="submit"
-            className="mt-2 bg-yellow-500 text-white dark:text-base-200 transition-all ease-in-out duration-300 rounded-md py-2 font-nunito-sans font-[500] text-lg cursor-pointer"
-            disabled={formik.isSubmitting}
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2, bgcolor: 'orange' }}
           >
-            {formik.isSubmitting ? "Logging..." : "Login"}
-          </button>
-
-          {/* link */}
-          <p className="text-center font-inter text-gray-500 dark:text-slate-300">
-            Do not have an account ?{" "}
-            <Link to="/signup" className="link text-blue-600 font-lato cursor-pointer">
-              signup
-            </Link>
-          </p>
-        </form>
-      </section>
-    </Layout>
+            Log In
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 }
+
+export default LogIn;

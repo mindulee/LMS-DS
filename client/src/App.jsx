@@ -6,6 +6,8 @@ import AboutUs from "./Pages/About";
 import NotFound from "./Pages/NotFound";
 import Signup from "./Pages/Signup";
 import Login from "./Pages/Login";
+import { CssBaseline } from '@mui/material';
+//import { theme } from './theme';
 
 
 
@@ -25,14 +27,19 @@ import AddLecture from "./Pages/Dashboard/AddLecture";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
 import TeacherDashboard from "./Pages/Dashboard/TeacherDashboard";
 import { useSelector } from "react-redux";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
-  const {userinfo} = useSelector((state) => state.signIn) 
-  console.log('hi' , userinfo)
+  const {userInfo} = useSelector((state) => state.signIn) 
+  console.log('hi' , userInfo)
   return (
     <>
+    <ToastContainer />
+    {/* <CssBaseline /> */}
+                
+                
       <Routes>
       
         <Route path="/" element={<HomePage />} />
@@ -67,6 +74,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+    
     </>
   );
 }
