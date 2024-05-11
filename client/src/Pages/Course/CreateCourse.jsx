@@ -85,7 +85,7 @@ export default function CreateCourse() {
           thumbnail: null,
           previewImage: "",
         });
-        navigate("/admin/dashboard") // Redirect to dashboard or any other page after successful course creation
+        navigate("/teacher/dashboard") // Redirect to dashboard or any other page after successful course creation
       } else {
         toast.error("Failed to create course. Please try again later.");
         console.log(error)

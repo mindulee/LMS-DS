@@ -14,7 +14,7 @@ import Contact from "./Pages/Contact";
 import Denied from "./Pages/Denied";
 import CourseDescription from "./Pages/Course/CourseDescription";
 
-import RequireAuth from "./Components/auth/RequireAuth";
+
 import CreateCourse from "./Pages/Course/CreateCourse";
 import Profile from "./Pages/User/Profile";
 import Checkout from "./Pages/Payment/Checkout";
@@ -23,12 +23,18 @@ import CheckoutFail from "./Pages/Payment/CheckoutFail";
 import DisplayLecture from "./Pages/Dashboard/DisplayLecture";
 import AddLecture from "./Pages/Dashboard/AddLecture";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
+import TeacherDashboard from "./Pages/Dashboard/TeacherDashboard";
+import { useSelector } from "react-redux";
+
 
 
 function App() {
+  const {userinfo} = useSelector((state) => state.signIn) 
+  console.log('hi' , userinfo)
   return (
     <>
       <Routes>
+      
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
@@ -46,6 +52,7 @@ function App() {
           <Route path="/course/create" element={<CreateCourse />} />
           <Route path="/course/addlecture" element={<AddLecture />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
          
         
 

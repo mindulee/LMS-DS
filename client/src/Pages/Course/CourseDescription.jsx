@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 
 export default function CourseDescription() {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const { role, data } = useSelector((state) => state.auth);
+ 
 
   useEffect(() => {
     if(!state) {
@@ -58,7 +58,7 @@ export default function CourseDescription() {
               </p>
             </div>
 
-            {role === "ADMIN" || data?.subscription?.status === "active" ? (
+            
               <button
                 onClick={() =>
                   navigate("/course/displaylectures", { state: { ...state } })
@@ -67,14 +67,14 @@ export default function CourseDescription() {
               >
                 Watch lectures
               </button>
-            ) : (
+            
               <button
                 onClick={() => navigate("/checkout")}
                 className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3 w-full   transition-all ease-in-out duration-300"
               >
                 Subscribe
               </button>
-            )}
+            
           </div>
         </div>
       </section>
