@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { userLogoutAction } from "../Redux/actions/userAction";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { userLogoutAction } from "../Redux/actions/userAction";
 import { FiMenu } from "react-icons/fi";
 import {
   FaHome,
@@ -12,13 +11,16 @@ import {
   FaInfoCircle,
   FaPhone,
 } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import AdminRoute from './AdminRoute'
+import TeacherRoute from './TeacherRoute'
 
 export default function Sidebar({ hideBar = false }) {
-  const {userInfo} = useSelector((state) => state.signIn) 
+  const {userInfo} = useSelector((state) => state.signIn)
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false);
-  const { isLoggedIn, role, data } = useSelector((state) => state.auth);
+
 
   const onLogout = async function () {
     await dispatch(userLogoutAction());
@@ -75,7 +77,7 @@ export default function Sidebar({ hideBar = false }) {
               </Link>
             </li>
 
-            {role === "ADMIN" && (
+         {userInfo && userInfo.role === 1 && (
               <li>
                 <Link to="/admin/dashboard" className="flex gap-4 items-center">
                   <FaUserCircle
@@ -85,9 +87,9 @@ export default function Sidebar({ hideBar = false }) {
                   Admin DashBoard
                 </Link>
               </li>
-            )}
+         )}
 
-            {role === "ADMIN" && (
+            
               <li>
                 <Link to="/course/create" className="flex gap-4 items-center">
                   <FaPlus
@@ -97,7 +99,7 @@ export default function Sidebar({ hideBar = false }) {
                   Create new course
                 </Link>
               </li>
-            )}
+              
 
             <li>
               <Link to="/courses" className="flex gap-4 items-center">
@@ -129,7 +131,7 @@ export default function Sidebar({ hideBar = false }) {
               </Link>
             </li>
 
-            {userInfo ? (
+           {userInfo ? (
               <li className="absolute bottom-4 w-[90%]">
                 <div className="w-full flex md:flex-row flex-col gap-2 items-center justify-center">
                   <button className="btn-primary px-3.5 py-2.5 font-semibold rounded-md w-full">
@@ -144,7 +146,7 @@ export default function Sidebar({ hideBar = false }) {
                   </button>
                 </div>
               </li>
-            ) : (
+           ) : (
               <li className="absolute bottom-4 w-[90%]">
                 <div className="w-full flex items-center justify-center">
                   <button className="btn-primary px-3.5 py-2.5 font-semibold rounded-md w-full">

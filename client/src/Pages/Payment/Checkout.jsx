@@ -1,98 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import { BiRupee } from "react-icons/bi";
-import {
-  getRazorPayId,
-  purchaseCourseBundle,
-  verifyUserPayment,
-} from "../../Redux/Slices/RazorpaySlice";
+
 import toast from "react-hot-toast";
-import { getUserData } from "../../Redux/Slices/AuthSlice";
+
 
 export default function Checkout() {
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
-  const rzorpayKey = useSelector((state) => state?.razorpay?.key);
-  const [subscription_id, setSubscription_id] = useState(
-    useSelector((state) => state?.razorpay?.subscription_id)
-  );
-  const isPaymentVerified = useSelector(
-    (state) => state?.razorpay?.isPaymentVerified
-  );
-  const userData = useSelector((state) => state?.auth?.data);
-  const paymentDetails = {
-    razorpay_payment_id: "",
-    razorpay_subscription_id: "",
-    razorpay_signature: "",
-  };
+ 
+  
 
   async function handleSubscription(e) {
     e.preventDefault();
-    if (!rzorpayKey || !subscription_id) {
-      toast.error("something went wrong");
-      return;
+    
     }
 
-    const options = {
-      key: rzorpayKey,
-      subscription_id: subscription_id,
-      name: "Coursify Pvt Ltd",
-      description: "subscription",
-      theme: {
-        color: "#fff",
-      },
-      prefill: {
-        email: userData?.email,
-        name: userData?.fullName,
-      },
-      handler: async function (response) {
-        paymentDetails.razorpay_payment_id = response.razorpay_payment_id;
-        paymentDetails.razorpay_signature = response.razorpay_signature;
-        paymentDetails.razorpay_subscription_id =
-          response.razorpay_subscription_id;
-
-        toast.success("Payment successful");
-
-        const res = await dispatch(verifyUserPayment(paymentDetails));
-        if (res?.payload?.success) {
-          navigate("/checkout/success");
-        } else {
-          navigate("/checkout/fail");
-        }
-      },
-    };
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
-  }
+    
 
   useEffect(() => {
     // Fetch the RazorPay ID
-    (async () => {
-      await dispatch(getRazorPayId());
+   
     })();
 
     // Check the user's subscription status
-    switch (userData?.subscription?.status) {
-      case "active":
-        // Navigate outside of the switch statement
-        navigate("/courses");
-        break;
-
-      // if already created subscription, then use previous id for this
-      case "created":
-        setSubscription_id(userData?.subscription?.id);
-        break;
-
-      default:
-        // If the user doesn't have a subscription, purchase a bundle
-        (async () => {
-          await dispatch(purchaseCourseBundle());
-        })();
-        break;
-    }
-  }, [dispatch, navigate, userData]);
+    
   return (
     <Layout>
       <section className="flex flex-col gap-6 items-center py-8 px-3 min-h-[100vh]">

@@ -27,7 +27,7 @@ const LogIn = () => {
   // Redirect to appropriate dashboard if user is already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      userInfo.role === 1 ? navigate('/admin/dashboard') : navigate('/user/dashboard');
+      userInfo.role === 1 ? navigate('/admin/dashboard') : userInfo.role===0 ?  navigate('/courses'): userInfo.role === 2 ? navigate('/teacher/dashboard') : navigate('/');
     }
   }, [isAuthenticated, userInfo, navigate]);
 

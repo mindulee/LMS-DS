@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import { getUserData } from "../../Redux/Slices/AuthSlice";
+
 import { RxCrossCircled } from "react-icons/rx";
-import { useDispatch } from "react-redux";
+
 import { Link } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 
 export default function CheckoutFail() {
-  const dispatch = useDispatch();
+
 
   useEffect(() => {
-    dispatch(getUserData());
+    
   });
 
   return (

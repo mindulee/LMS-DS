@@ -1,89 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData, updateUserData } from "../../Redux/Slices/AuthSlice";
+
 import InputBox from "../../Components/InputBox/InputBox";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosLock, IoIosRefresh } from "react-icons/io";
 import { FiMoreVertical } from "react-icons/fi";
 import Layout from "../../Layout/Layout";
 import { useNavigate } from "react-router-dom";
-import { cancelCourseBundle } from "../../Redux/Slices/RazorpaySlice";
+
 
 export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.auth.data);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [userInput, setUserInput] = useState({
-    name: userData?.fullName || "",
-    avatar: null,
-    previewImage: null,
-    userId: null,
-  });
-  const avatarInputRef = useRef(null);
-  const [isChanged, setIschanged] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  
 
   function handleImageUpload(e) {
-    e.preventDefault();
-    const uploadImage = e.target.files[0];
-    if (uploadImage) {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(uploadImage);
-      fileReader.addEventListener("load", function () {
-        setUserInput({
-          ...userInput,
-          previewImage: this.result,
-          avatar: uploadImage,
-        });
-      });
-    }
+   
   }
 
   async function onFormSubmit(e) {
-    setIsUpdating(true);
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("fullName", userInput.name);
-    if (userInput.avatar) {
-      formData.append("avatar", userInput.avatar);
-    }
-    const data = { formData, id: userInput.userId };
-    const response = await dispatch(updateUserData(data));
-    if (response?.payload?.success) {
-      await dispatch(getUserData());
-      setIschanged(false);
-    }
-    setIsUpdating(false);
+    
   }
 
   async function handleCancelSubscription() {
-    const res = await dispatch(cancelCourseBundle());
-    if (res?.payload?.success) {
-      await dispatch(getUserData());
-    }
+    
   }
 
-  useEffect(() => {
-    setIschanged(userInput.name !== userData?.fullName || userInput.avatar);
-  }, [userInput]);
+  
+  
 
-  useEffect(() => {
-    async function fetchUser() {
-      await dispatch(getUserData());
-    }
-    if (Object.keys(userData).length < 1) fetchUser();
-  }, []);
-
-  useEffect(() => {
-    setUserInput({
-      ...userInput,
-      name: userData?.fullName,
-      userId: userData?._id,
-    });
-  }, []);
-
+  
   return (
     <Layout hideFooter={true}>
       <section className="flex flex-col gap-6 items-center py-8 px-3 min-h-[100vh]">

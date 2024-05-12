@@ -31,6 +31,9 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+import TeacherRoute from './Components/TeacherRoute'
+import AdminRoute from './Components/AdminRoute'
+import UserRoute from './Components/UserRoute'
 
 function App() {
   const {userInfo} = useSelector((state) => state.signIn) 
@@ -57,9 +60,9 @@ function App() {
         <Route path="/courses/description" element={<CourseDescription />} />
 
         
-          <Route path="/course/create" element={<CreateCourse />} />
+          <Route path="/course/create" element={<TeacherRoute><CreateCourse /></TeacherRoute>} />
           <Route path="/course/addlecture" element={<AddLecture />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
           <Route path="/admin/requests" element={<DisplayRequests />} />
          

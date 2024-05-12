@@ -1,19 +1,8 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import AuthSliceReducer from "./Slices/AuthSlice";
-import RazorpaySliceReducer from "./Slices/RazorpaySlice";
-import StatSliceReducer from "./Slices/StatSlice";
-import {
-    deleteJobReducer, 
-    loadJobReducer, 
-    loadJobSingleReducer, 
-    registerAjobReducer 
-} from './reducers/jobReducer';
-import { 
-    createJobTypeReducer, 
-    loadJobTypeReducer 
-} from './reducers/jobTypeReducer';
+import { composeWithDevTools } from '@redux-devtools/extension';
+import { deleteJobReducer, loadJobReducer, loadJobSingleReducer, registerAjobReducer } from './reducers/jobReducer';
+import { createJobTypeReducer, loadJobTypeReducer } from './reducers/jobTypeReducer';
 import {
     allUserReducer,
     userApplyJobReducer,
@@ -24,11 +13,8 @@ import {
 } from './reducers/userReducer';
 import { modeReducer } from './reducers/themeModeReducer';
 
-// Combine reducers from both configurations
-const rootReducer = combineReducers({
-    auth: AuthSliceReducer,
-    razorpay: RazorpaySliceReducer,
-    stat: StatSliceReducer,
+//combine reducers
+const reducer = combineReducers({
     loadJobs: loadJobReducer,
     jobTypeAll: loadJobTypeReducer,
     signIn: userReducerSignIn,
@@ -42,10 +28,12 @@ const rootReducer = combineReducers({
     registerJob: registerAjobReducer,
     deleteJob: deleteJobReducer,
     createJobType: createJobTypeReducer
+
 });
 
-// Initial state combining both initial states
-const initialState = {
+
+//initial state
+let initialState = {
     signIn: {
         userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
     },
@@ -53,15 +41,8 @@ const initialState = {
         mode: "light"
     }
 };
-
-// Setup middleware
 const middleware = [thunk];
+const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))
 
-// Create the store
-const store = createStore(
-    rootReducer,
-    initialState,
-    composeWithDevTools(applyMiddleware(...middleware))
-);
 
 export default store;

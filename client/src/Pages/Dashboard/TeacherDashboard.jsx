@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BsCollectionPlayFill, BsTrash } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
+import { FcSalesPerformance } from "react-icons/fc";
+import { GiMoneyStack } from "react-icons/gi";
 
 import Layout from "../../Layout/Layout";
 
@@ -112,13 +116,15 @@ export default function TeacherDashboard() {
                             })
                           }
                         >
-                          Display Lectures
+                          <BsCollectionPlayFill /> {/* Added icon */}
+                      
                         </button>
                         <button
                           className="bg-red-500 text-white  transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-inter font-[500]"
                           onClick={() => onDeleteCourse(course?._id)}
                         >
-                          Delete
+                          <BsTrash /> {/* Added icon */}
+                          
                         </button>
                       </td>
                     </tr>
