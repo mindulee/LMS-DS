@@ -18,7 +18,9 @@ export default function CourseDescription() {
   const handleSubscription = () => {
     // Navigate to the checkout page with the course price
     {userInfo ?  (
-    navigate("/checkout", { state: { price: state?.price , courseId: state?._id }  })
+    navigate("/checkout", { state: { price: state?.price , courseId: state?._id , description: state?.description ,  numberOfLectures: state?.numberOfLectures ,
+      title: state?.title , status: state?.status 
+     }  })
     ) : (navigate("/login")
   )}
   }

@@ -16,10 +16,13 @@
     "@mui/material": "^5.15.17",
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.4.0",
     "axios": "^1.6.8",
     "browserslist": "^4.23.0",
     "chart.js": "^4.4.0",
     "daisyui": "^3.7.4",
+    "dotenv": "^16.4.5",
     "formik": "^2.4.6",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -33,6 +36,7 @@
     "redux-devtools-extension": "^2.13.9",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.11.0",
+    "web-vitals": "^3.5.2",
     "yup": "^1.4.0"
   },
   "devDependencies": {
