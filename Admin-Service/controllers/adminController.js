@@ -1,4 +1,3 @@
-// adminController.js
 
 const axios = require('axios');
 
@@ -28,4 +27,28 @@ async function denyCourse(req, res) {
     }
 }
 
-module.exports = { acceptCourse, denyCourse };
+const fetchUserData = async () => {
+    try {
+        const response = await axios.get('http://localhost:3000/user/api/allUsers');
+        return response.data.users; 
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        throw error;
+    }
+};
+
+const adminControllerFunction = async (req, res , next) => {
+    try {
+        const users = await fetchUserData();
+        console.log(users)
+        
+        res.status(200).json({ success: true, users });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+
+module.exports = { acceptCourse, denyCourse , adminControllerFunction };

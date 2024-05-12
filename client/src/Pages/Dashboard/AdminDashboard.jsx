@@ -1,85 +1,13 @@
 import React, { useEffect, useState } from "react";
-// Chart.js imports
-// import {
-//   ArcElement,
-//   BarElement,
-//   CategoryScale,
-//   Chart as ChartJS,
-//   Legend,
-//   LinearScale,
-//   Title,
-//   Tooltip,
-// } from "chart.js";
-// import { Bar, Pie } from "react-chartjs-2";
-// End of Chart.js imports
-import { BsCollectionPlayFill, BsTrash } from "react-icons/bs";
-import { FaUsers } from "react-icons/fa";
-import { FcSalesPerformance } from "react-icons/fc";
-import { GiMoneyStack } from "react-icons/gi";
-import { useNavigate } from "react-router-dom";
-
 import Layout from "../../Layout/Layout";
-
-// Chart.js registration
-// ChartJS.register(
-//   ArcElement,
-//   BarElement,
-//   CategoryScale,
-//   Legend,
-//   LinearScale,
-//   Title,
-//   Tooltip
-// );
+import { BsCollectionPlayFill, BsTrash } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const [allUsersCount, setAllUsersCount] = useState(0);
-  const [subscribedCount, setSubscribedCount] = useState(0);
-  const [allPayments, setAllPayments] = useState({});
   const [myCourses, setMyCourses] = useState([]);
-  const monthlySalesRecord = [1, 3, 7, 8, 10, 0, 5];
   const [loadingCourses, setLoadingCourses] = useState(true);
-
-  const userData = {
-    labels: ["Registered User", "Enrolled User"],
-    fontColor: "#fff",
-    datasets: [
-      {
-        label: "User Details",
-        data: [allUsersCount, subscribedCount],
-        backgroundColor: ["yellow", "green"],
-        borderWidth: 1,
-        borderColor: ["yellow", "green"],
-      },
-    ],
-  };
-
-  const salesData = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
-    fontColor: "white",
-    datasets: [
-      {
-        label: "Sales / Month",
-        data: monthlySalesRecord,
-        backgroundColor: ["red"],
-        borderColor: ["white"],
-        borderWidth: 2,
-      },
-    ],
-  };
+  const [users, setUsers] = useState([]);
 
   const fetchCourses = async () => {
     try {
@@ -88,7 +16,7 @@ export default function AdminDashboard() {
         throw new Error("Failed to fetch courses");
       }
       const data = await response.json();
-      setMyCourses(data.courses); // Set myCourses to data.courses
+      setMyCourses(data.courses);
       setLoadingCourses(false);
     } catch (error) {
       console.error("Error fetching courses:", error);
@@ -104,15 +32,28 @@ export default function AdminDashboard() {
       if (!response.ok) {
         throw new Error('Failed to delete course');
       }
-      // Remove the deleted course from the state
       setMyCourses(myCourses.filter(course => course._id !== courseId));
     } catch (error) {
       console.error('Error deleting course:', error);
     }
-  }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/admin/getusers");
+      if (!response.ok) {
+        throw new Error("Failed to fetch users");
+      }
+      const data = await response.json();
+      setUsers(data.users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
   useEffect(() => {
     fetchCourses();
+    fetchUsers();
   }, []);
 
   const handleRequestButtonClick = () => {
@@ -127,166 +68,97 @@ export default function AdminDashboard() {
           <span className="text-violet-500 font-nunito-sans">Dashboard</span>
         </h1>
         <div className="flex flex-col gap-14">
-          {/* creating the records card and chart for sales and user details */}
-          <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-7 m-auto lg:mx-10 mx-2">
-            {/* displaying the users chart and data */}
-            {/* <div className="flex flex-col items-center  gap-5  lg:px-6 px-4 lg:py-8 py-7 shadow-custom  dark:bg-base-100 rounded-md">
-              <div className="w-full h-60">
-                <Pie
-                  className="pb-3 px-2.5"
-                  data={userData}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                  }}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-5 w-full">
-                <div className="flex  items-center relative h-32 justify-between p-5 gap-5 rounded-md shadow-md">
-                  <div className="flex flex-col items-center mt-3 justify-center">
-                    <p className="font-semibold text-gray-700 dark:text-white md:static absolute top-3 left-3">
-                      Registered Users
-                    </p>
-                    <h3 className="md:text-4xl text-xl font-inter font-bold">
-                      {allUsersCount}
-                    </h3>
-                  </div>
-                  <FaUsers className="text-yellow-500 text-5xl" />
-                </div>
-                <div className="flex  items-center relative h-32 justify-between p-5 gap-5 rounded-md shadow-md">
-                  <div className="flex flex-col items-center mt-3 justify-center">
-                    <p className="font-semibold text-gray-700 dark:text-white md:static absolute top-3 left-3">
-                      Subscribed Users
-                    </p>
-                    <h3 className="md:text-4xl text-xl font-inter font-bold">
-                      {subscribedCount}
-                    </h3>
-                  </div>
-                  <FaUsers className="text-green-500 text-5xl" />
-                </div>
-              </div>
-            </div> */}
-            {/* displaying the sales chart and data */}
-            {/* <div className="flex flex-col items-center gap-5 dark:bg-base-100 lg:px-6 px-4 lg:py-8 py-7 shadow-custom rounded-md">
-              <div className="h-60 relative w-full">
-                <Bar
-                  data={salesData}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                  }}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-5 w-full">
-                <div className="flex  items-center relative h-32 justify-between p-5 gap-5 rounded-md shadow-md">
-                  <div className="flex flex-col items-center mt-3 justify-center">
-                    <p className="font-semibold text-gray-700 dark:text-white md:static absolute top-3 left-3">
-                      Subscription Count
-                    </p>
-                    <h3 className="md:text-4xl text-xl font-inter font-bold">
-                      {allPayments?.count}
-                    </h3>
-                  </div>
-                  <FcSalesPerformance className="text-yellow-500 text-5xl" />
-                </div>
-                <div className="flex  items-center relative h-32 justify-center p-5 gap-5 rounded-md shadow-md">
-                  <div className="flex flex-col items-center mt-3 justify-center">
-                    <p className="font-semibold text-gray-700 dark:text-white md:static absolute top-3 left-3">
-                      Total Revenue
-                    </p>
-                    <h3 className="md:text-4xl text-xl font-inter font-bold">
-                      {allPayments?.count * 499}
-                    </h3>
-                  </div>
-                  <GiMoneyStack className="text-green-500 text-5xl" />
-                </div>
-              </div>
-            </div> */}
-          </div>
-          <div className=" w-[100%] self-center flex flex-col   justify-center gap-10 mb-10">
-            <div className="flex w-full items-center justify-between md:px-[40px] px-3">
-              <h1 className="text-center font-inter md:text-3xl text-xl text-gray-600 dark:text-slate-50 font-semibold">
-                Courses overview
-              </h1>
-              <div>
-                <button
-                  onClick={() => {
-                    navigate("/course/create");
-                  }}
-                  className="bg-yellow-500  transition-all ease-in-out duration-300 rounded py-2 px-4 font-[600] font-inter text-lg text-white cursor-pointer mr-4"
-                >
-                  Create new course
-                </button>
-                <button
-                  onClick={handleRequestButtonClick}
-                  className="bg-blue-500  transition-all ease-in-out duration-300 rounded py-2 px-4 font-[600] font-inter text-lg text-white cursor-pointer"
-                >
-                  Request
-                </button>
-              </div>
-            </div>
-            <div className="w-full overflow-x-scroll">
-              {loadingCourses ? (
-                <div>Loading...</div>
-              ) : (
-                <table className="table">
-                  <thead className="text-gray-900 dark:text-slate-300 font-lato">
-                    <tr>
-                      <th>S No</th>
-                      <th>Course Title</th>
-                      <th>Course Category</th>
-                      <th>Instructor</th>
-                      <th>Total Lectures</th>
-                      <th>Description</th>
-                      <th>Actions</th>
+          <div className="w-full overflow-x-scroll">
+            {loadingCourses ? (
+              <div>Loading...</div>
+            ) : (
+              <table className="table">
+                <thead className="text-gray-900 dark:text-slate-300 font-lato">
+                  <tr>
+                    <th>S No</th>
+                    <th>Course Title</th>
+                    <th>Course Category</th>
+                    <th>Instructor</th>
+                    <th>Total Lectures</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="text-black font-[500] text-sm dark:text-slate-300 font-open-sans">
+                  {myCourses.map((course, idx) => (
+                    <tr key={course._id}>
+                      <td>{idx + 1}</td>
+                      <td>
+                        <textarea
+                          readOnly
+                          value={course?.title}
+                          className="w-40 h-auto bg-transparent resize-none"
+                        ></textarea>
+                      </td>
+                      <td>{course?.category}</td>
+                      <td>{course?.createdBy}</td>
+                      <td>{course?.numberOfLectures}</td>
+                      <td className="max-w-28  whitespace-nowrap">
+                        <textarea
+                          value={course?.description}
+                          readOnly
+                          className="w-80 h-auto bg-transparent  line-clamp-2 resize-none"
+                        ></textarea>
+                      </td>
+                      <td>{course?.price}</td>
+                      <td className="flex items-center gap-4">
+                        <button
+                          className="bg-green-500 text-white font-inter transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-[500]"
+                          onClick={() =>
+                            navigate("/course/displaylectures", {
+                              state: { ...course },
+                            })
+                          }
+                        >
+                          <BsCollectionPlayFill />
+                        </button>
+                        <button
+                          className="bg-red-500 text-white  transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-inter font-[500]"
+                          onClick={() => onDeleteCourse(course?._id)}
+                        >
+                          <BsTrash />
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="text-black font-[500] text-sm dark:text-slate-300 font-open-sans">
-                    {myCourses.map((course, idx) => (
-                      <tr key={course._id}>
-                        <td>{idx + 1}</td>
-                        <td>
-                          <textarea
-                            readOnly
-                            value={course?.title}
-                            className="w-40 h-auto bg-transparent resize-none"
-                          ></textarea>
-                        </td>
-                        <td>{course?.category}</td>
-                        <td>{course?.createdBy}</td>
-                        <td>{course?.numberOfLectures}</td>
-                        <td className="max-w-28  whitespace-nowrap">
-                          <textarea
-                            value={course?.description}
-                            readOnly
-                            className="w-80 h-auto bg-transparent  line-clamp-2 resize-none"
-                          ></textarea>
-                        </td>
-                        <td className="flex items-center gap-4">
-                          <button
-                            className="bg-green-500 text-white font-inter transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-[500]"
-                            onClick={() =>
-                              navigate("/course/displaylectures", {
-                                state: { ...course },
-                              })
-                            }
-                          >
-                            <BsCollectionPlayFill />
-                          </button>
-                          <button
-                            className="bg-red-500 text-white  transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-inter font-[500]"
-                            onClick={() => onDeleteCourse(course?._id)}
-                          >
-                            <BsTrash />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
+        </div>
+      </section>
+      {/* User table */}
+      <section className="py-5 lg:py-10 flex flex-col gap-7">
+        <div className="w-full overflow-x-scroll">
+          <table className="table mt-10">
+            <thead className="text-gray-900 dark:text-slate-300 font-lato">
+              <tr>
+                
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody className="text-black font-[500] text-sm dark:text-slate-300 font-open-sans">
+              {users.map((user, idx) => (
+                <tr key={user.id}>
+                  
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role === 0 ? 'Learner' : user.role === 2 ? 'Teacher' : ''}</td>
+                </tr>
+                
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
     </Layout>

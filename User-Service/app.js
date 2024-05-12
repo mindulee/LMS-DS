@@ -13,8 +13,8 @@ const path = require('path');
 // import routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
-const jobTypeRoute = require('./routes/jobsTypeRoutes');
-const jobRoute = require('./routes/jobsRoutes');
+// const jobTypeRoute = require('./routes/jobsTypeRoutes');
+// const jobRoute = require('./routes/jobsRoutes');
 
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middleware/error");
@@ -50,8 +50,8 @@ app.use(cors());
 // })
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
-app.use('/api', jobTypeRoute);
-app.use('/api', jobRoute);
+// app.use('/api', jobTypeRoute);
+// app.use('/api', jobRoute);
 
 __dirname = path.resolve()
 

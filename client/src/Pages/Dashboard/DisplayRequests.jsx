@@ -40,7 +40,7 @@ export default function DisplayRequests() {
         throw new Error("Failed to accept course");
       }
       // Refresh courses after status update
-      fetchCourses();
+      navigate("/admin/dashboard");
     } catch (error) {
       console.error("Error accepting course:", error);
     }
@@ -59,7 +59,7 @@ export default function DisplayRequests() {
         throw new Error("Failed to deny course");
       }
       // Refresh courses after status update
-      fetchCourses();
+      navigate("/admin/dashboard");
     } catch (error) {
       console.error("Error denying course:", error);
     }

@@ -81,7 +81,8 @@ export default function TeacherDashboard() {
                     <th>Instructor</th>
                     <th>Total Lectures</th>
                     <th>Description</th>
-                    <th>Status</th> {/* Added Status column */}
+                    <th>Price</th>
+                    <th>Status</th> {/* Added Status column */} 
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -106,6 +107,7 @@ export default function TeacherDashboard() {
                           className="w-80 h-auto bg-transparent  line-clamp-2 resize-none"
                         ></textarea>
                       </td>
+                      <td>{course?.price}</td> 
                       <td>{course?.status}</td> {/* Render Status */}
                       <td className="flex items-center gap-4">
                         <button
