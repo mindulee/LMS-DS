@@ -18,6 +18,7 @@ export default function CreateCourse() {
     description: "",
     thumbnail: null,
     previewImage: "",
+    price:"",
   });
 
   function handleImageUpload(e) {
@@ -53,7 +54,8 @@ export default function CreateCourse() {
       !userInput.description ||
       !userInput.category ||
       !userInput.createdBy ||
-      !userInput.thumbnail
+      !userInput.thumbnail||
+      !userInput.price
     ) {
   
       toast.error("All fields are required!");
@@ -67,6 +69,8 @@ export default function CreateCourse() {
     formData.append("category", userInput.category);
     formData.append("createdBy", userInput.createdBy);
     formData.append("thumbnail", userInput.thumbnail);
+    formData.append("price", userInput.price);
+  
   
     try {
       const response = await axios.post("http://localhost:3000/Course/add", formData, {
@@ -84,6 +88,7 @@ export default function CreateCourse() {
           description: "",
           thumbnail: null,
           previewImage: "",
+          price:"",
         });
         navigate("/teacher/dashboard") // Redirect to dashboard or any other page after successful course creation
       } else {
@@ -176,6 +181,15 @@ export default function CreateCourse() {
                 placeholder={"Enter Course Description"}
                 onChange={handleUserInput}
                 value={userInput.description}
+              />
+              {/*price */}
+              <InputBox
+                label={"price"}
+                name={"price"}
+                type={"text"}
+                placeholder={"Enter Course Price"}
+                onChange={handleUserInput}
+                value={userInput.price}
               />
             </div>
           </div>

@@ -1,32 +1,25 @@
 import React, { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import { BiRupee } from "react-icons/bi";
-
 import toast from "react-hot-toast";
-
+import { useLocation } from 'react-router-dom';
 
 export default function Checkout() {
-
   const navigate = useNavigate();
- 
-  
+
+  // Retrieve the price from the location state
+  const { state } = useLocation();
+  const price = state?.price;
+  const courseId = state?.courseId;
+
+  console.log(price , courseId)
 
   async function handleSubscription(e) {
     e.preventDefault();
-    
-    }
+    navigate('/paymentform' , { state: { price:price , courseId:courseId }  })
+  }
 
-    
-
-  useEffect(() => {
-    // Fetch the RazorPay ID
-   
-    })();
-
-    // Check the user's subscription status
-    
   return (
     <Layout>
       <section className="flex flex-col gap-6 items-center py-8 px-3 min-h-[100vh]">
@@ -45,9 +38,10 @@ export default function Checkout() {
                 includes both existing and new courses.
               </p>
 
+              {/* Display the real price */}
               <p className="flex items-center justify-center gap-1 text-2xl font-bold text-yellow-500">
-                <BiRupee />
-                <span>499</span>
+                LKR
+                <span>{price}</span>
               </p>
 
               <div className="text-xs">

@@ -2,18 +2,22 @@ import React, { useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 export default function CourseDescription() {
   const { state } = useLocation();
   const navigate = useNavigate();
-
- 
 
   useEffect(() => {
     if(!state) {
       navigate("/courses");
     }
   }, [])
+
+  // Function to handle subscription
+  const handleSubscription = () => {
+    // Navigate to the checkout page with the course price
+    navigate("/checkout", { state: { price: state?.price , courseId: state?._id }  });
+  }
+
   return (
     <Layout>
       <section className="min-h-[90vh] md:pt-12 pt-2 px-4 lg:px-20 flex flex-col   text-gray-800 dark:text-white">
@@ -40,6 +44,12 @@ export default function CourseDescription() {
                   </span>
                   {state?.createdBy}
                 </p>
+                <p className="font-semibold">
+                  <span className="text-yellow-600 dark:text-yellow-500 font-bold">
+                    Price:{" "}
+                  </span>
+                  {state?.price}
+                </p>
               </div>
             </div>
           </div>
@@ -58,23 +68,22 @@ export default function CourseDescription() {
               </p>
             </div>
 
-            
-              <button
-                onClick={() =>
-                  navigate("/course/displaylectures", { state: { ...state } })
-                }
-                className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3 w-full   transition-all ease-in-out duration-300"
-              >
-                Watch lectures
-              </button>
-            
-              <button
-                onClick={() => navigate("/checkout")}
-                className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3 w-full   transition-all ease-in-out duration-300"
-              >
-                Subscribe
-              </button>
-            
+            <button
+              onClick={() =>
+                navigate("/course/displaylectures", { state: { ...state } })
+              }
+              className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3 w-full   transition-all ease-in-out duration-300"
+            >
+              Watch lectures
+            </button>
+
+            <button
+              onClick={handleSubscription} // Call handleSubscription function
+              className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3 w-full   transition-all ease-in-out duration-300"
+            >
+              Subscribe
+            </button>
+
           </div>
         </div>
       </section>

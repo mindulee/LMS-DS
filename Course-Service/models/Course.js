@@ -45,6 +45,10 @@ const courseSchema = new Schema({
         type: Number,
         default: 0
     },
+    price: {
+        type: Number,
+        required: true,
+    },
     createdBy: {
         type: String,
         required: true,

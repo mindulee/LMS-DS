@@ -5,9 +5,9 @@ const fs = require('fs')
 
 async function create_New_Course(req, res) {
     try {
-        const { title, description, category, createdBy } = req.body;
+        const { title, description, category, createdBy , price } = req.body;
 
-        if (!title || !description || !category || !createdBy) {
+        if (!title || !description || !category || !createdBy || !price) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
@@ -18,6 +18,7 @@ async function create_New_Course(req, res) {
             description,
             category,
             createdBy,
+            price,
             status: 'pending'
         });
         console.log("Created course:", course);

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios'; // Import axios for fetching data
+import axios from 'axios';
 import CourseCard from "../../Components/CourseCard";
 import Layout from "../../Layout/Layout";
-import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom if you're using React Router
-import { Navigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CourseList() {
   const [coursesData, setCoursesData] = useState([]);
@@ -12,8 +10,10 @@ export default function CourseList() {
 
   async function fetchCourses() {
     try {
-      const res = await axios.get("http://localhost:3000/Course/"); // Assuming your API endpoint is /courses
-      setCoursesData(res.data.courses); // Assuming courses are returned in res.data.courses
+      const res = await axios.get("http://localhost:3000/Course/");
+      // Filter the courses to display only those with status 'accepted'
+      const acceptedCourses = res.data.courses.filter(course => course.status === 'accepted');
+      setCoursesData(acceptedCourses);
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
@@ -34,13 +34,11 @@ export default function CourseList() {
             </span>
           </h1>
           <button
-                onClick={() =>
-                  navigate("/course/create")
-                }
-                className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3    transition-all ease-in-out duration-300"
-              >
-               Create Course
-              </button>
+            onClick={() => navigate("/course/create")}
+            className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3    transition-all ease-in-out duration-300"
+          >
+            Create Course
+          </button>
         </div>
         {/* course container */}
         <div className="flex gap-12 md:justify-start justify-center flex-wrap">
