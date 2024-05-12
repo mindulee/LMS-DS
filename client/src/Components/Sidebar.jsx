@@ -89,7 +89,7 @@ export default function Sidebar({ hideBar = false }) {
               </li>
          )}
 
-            
+{userInfo && userInfo.role === 2 && (
               <li>
                 <Link to="/course/create" className="flex gap-4 items-center">
                   <FaPlus
@@ -99,7 +99,8 @@ export default function Sidebar({ hideBar = false }) {
                   Create new course
                 </Link>
               </li>
-              
+)}
+
 
             <li>
               <Link to="/courses" className="flex gap-4 items-center">

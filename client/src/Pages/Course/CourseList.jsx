@@ -3,10 +3,12 @@ import axios from 'axios';
 import CourseCard from "../../Components/CourseCard";
 import Layout from "../../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function CourseList() {
   const [coursesData, setCoursesData] = useState([]);
   const navigate = useNavigate()
+  const {userInfo} = useSelector((state) => state.signIn)
 
   async function fetchCourses() {
     try {
@@ -33,12 +35,14 @@ export default function CourseList() {
               Industry experts
             </span>
           </h1>
+          {userInfo && userInfo.role === 2  && (
           <button
             onClick={() => navigate("/course/create")}
             className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3    transition-all ease-in-out duration-300"
           >
             Create Course
           </button>
+          )}
         </div>
         {/* course container */}
         <div className="flex gap-12 md:justify-start justify-center flex-wrap">

@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function CourseDescription() {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const {userInfo} = useSelector((state) => state.signIn)
 
   useEffect(() => {
     if(!state) {
@@ -15,7 +17,10 @@ export default function CourseDescription() {
   // Function to handle subscription
   const handleSubscription = () => {
     // Navigate to the checkout page with the course price
-    navigate("/checkout", { state: { price: state?.price , courseId: state?._id }  });
+    {userInfo ?  (
+    navigate("/checkout", { state: { price: state?.price , courseId: state?._id }  })
+    ) : (navigate("/login")
+  )}
   }
 
   return (
@@ -67,7 +72,7 @@ export default function CourseDescription() {
                 {state?.description}
               </p>
             </div>
-
+            {userInfo &&  (
             <button
               onClick={() =>
                 navigate("/course/displaylectures", { state: { ...state } })
@@ -76,7 +81,9 @@ export default function CourseDescription() {
             >
               Watch lectures
             </button>
+            )}
 
+            
             <button
               onClick={handleSubscription} // Call handleSubscription function
               className="bg-orange-500 dark:bg-orange-600 text-white text-xl rounded-md font-bold px-5 py-3 w-full   transition-all ease-in-out duration-300"
