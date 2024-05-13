@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  gateway:
+    build: Gateway/
+    ports:
+      - "3000:3000"
+
+  admin:
+    build: Admin-Service/
+    ports:
+      - "3003:3003"
+    depends_on:
+      - gateway
+
+  course:
+    build: Course-Service/
+    ports:
+      - "3008:3008"
+    depends_on:
+      - gateway
+
+  payment:
+    build: Payment-Service/
+    ports:
+      - "3001:3001"
+    depends_on:
+      - gateway
+  
+  user:
+    build: User-Service/
+    ports:
+      - "9000:9000"
+    depends_on:
+      - gateway
