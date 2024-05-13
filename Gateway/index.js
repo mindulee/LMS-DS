@@ -22,13 +22,6 @@ app.use('/Course' , createProxyMiddleware({
     }
 }))
 
-app.use('/Learner' , createProxyMiddleware({
-    target: 'http://localhost:3004' ,
-    pathRewrite:{
-        '^/Learner' : ''
-    }
-}))
-
 
 app.use('/User' , createProxyMiddleware({
     target: 'http://localhost:9000' ,

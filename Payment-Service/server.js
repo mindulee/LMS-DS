@@ -34,6 +34,8 @@ app.use(bodyParser.raw({ type: "application/json" }));
 // =====================================================================================
 
 app.post("/create-stripe-session-subscription", async (req, res) => {
+  const { courseId, description, numberOfLectures, status, userId } = req.body;
+
   const userEmail = "tharudhananjaya2222@gmail.com"; // Replace with actual user email
   let customer;
   const auth0UserId = userEmail;

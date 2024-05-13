@@ -10,8 +10,4 @@ const COURSE_SERVICE_URL = 'http://localhost:3000/Course'; // Course service URL
 const getAllCourses = async (req, res, next) => {
   
 }
-
-
-
-
 module.exports = { getAllCourses  };
