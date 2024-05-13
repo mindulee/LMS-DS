@@ -21,14 +21,17 @@ export default function Checkout() {
   const description = state?.description; 
   const numberOfLectures = state?.numberOfLectures; 
   const status = state?.status;
+  const title = state?.title;
  const userId = userInfo.userId
 
-  console.log(price , courseId , description , numberOfLectures ,  status , userId)
+  console.log(price , courseId , description , numberOfLectures ,  status , userId , title)
   
 
 
   const handleSubscription = async (e) => {
     e.preventDefault();
+
+    savePaymentDetails()
 
     const requestBody = {
       courseId: courseId,
@@ -61,7 +64,31 @@ export default function Checkout() {
       const session = await response.json();
       stripePromise.redirectToCheckout({
         sessionId: session.id,
+        successUrl: `${window.location.origin}/checkout/success`, // Specify success URL
+        cancelUrl: `${window.location.origin}/checkout`, // Specify cancel URL
       });
+    }
+  };
+
+  const savePaymentDetails = async (paymentDetails) => {
+
+    const requestBody = {
+      courseId: courseId,
+      userId: userId,
+      price:price,
+      title:title
+
+    };
+    try {
+      await fetch("http://localhost:3000/admin/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+    } catch (error) {
+      console.error("Error saving payment details:", error);
+      // Handle error
+      throw error;
     }
   };
 
@@ -84,7 +111,7 @@ export default function Checkout() {
               </p>
 
               <p className="flex items-center justify-center gap-1 text-2xl font-bold text-yellow-500">
-                <BiRupee />
+                LKR:
                 <span>{state.price}</span>
               </p>
 

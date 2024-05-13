@@ -19,7 +19,7 @@ export default function CourseDescription() {
     // Navigate to the checkout page with the course price
     {userInfo ?  (
     navigate("/checkout", { state: { price: state?.price , courseId: state?._id , description: state?.description ,  numberOfLectures: state?.numberOfLectures ,
-      title: state?.title , status: state?.status 
+      title: state?.title , status: state?.status , title: state?.title 
      }  })
     ) : (navigate("/login")
   )}

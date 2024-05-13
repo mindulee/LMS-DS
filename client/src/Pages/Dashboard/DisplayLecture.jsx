@@ -82,14 +82,14 @@ export default function DisplayLecture() {
               <ul className="w-full md:p-2 p-0 flex flex-col gap-5 shadow-sm">
                 <li className="font-semibold bg-slate-50 dark:bg-slate-100 p-3 rounded-md shadow-lg sticky top-0 text-xl text-[#2320f7] font-nunito-sans flex items-center justify-between">
                   <p>Lectures list</p>
-                  {userInfo && userInfo.role === 2 && (
+                  
                     <button
                       onClick={() => navigate("/course/addlecture", { state: { ...state } })}
                       className="btn-primary px-3 py-2 font-inter rounded-md font-semibold text-sm"
                     >
                       Add new lecture
                     </button>
-                  )}
+                
                 </li>
                 {lectures &&
                   lectures.map((lecture, idx) => (
