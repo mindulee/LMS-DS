@@ -89,7 +89,7 @@ export default function Sidebar({ hideBar = false }) {
               </li>
          )}
 
-{userInfo && userInfo.role === 2 && (
+{userInfo && userInfo.role !== 0 &&  (
               <li>
                 <Link to="/course/create" className="flex gap-4 items-center">
                   <FaPlus
